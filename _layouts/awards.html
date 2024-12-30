@@ -11,15 +11,17 @@ layout: default
   {% assign grouped_awards = awards_by_year | group_by: "year" %}
   {%- for year in grouped_awards -%}
     <h2>{{ year.name }}</h2>
-    {%- for award in year.items -%}
-      <p>
-        {{ award.name }} ({{ award.country }})
-        {%- if award.image -%}
-          <br>
-          <img src="{{ award.image }}" alt="{{ award.name }}" style="max-width: 100%; height: auto;">
-        {%- endif -%}
-      </p>
-    {%- endfor -%}
+    <ul>
+      {%- for award in year.items -%}
+        <li>
+          {{ award.name }} ({{ award.country }})
+          {%- if award.image -%}
+            <br>
+            <img src="{{ award.image }}" alt="{{ award.name }}" style="max-width: 100%; height: auto;">
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
   {%- endfor -%}
 </div>
 
