@@ -8,7 +8,8 @@ layout: default
 
 <div class="awards">
   {% assign awards_by_year = site.data.awards | sort: "year" | reverse %}
-  {%- for year in awards_by_year | group_by: "year" -%}
+  {% assign grouped_awards = awards_by_year | group_by: "year" %}
+  {%- for year in grouped_awards -%}
     <h2>{{ year.name }}</h2>
     <ul>
       {%- for award in year.items -%}
