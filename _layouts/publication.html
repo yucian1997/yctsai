@@ -12,9 +12,9 @@ layout: default
   {%- for year in publications reversed -%}
     <h2>{{ year.name }}</h2>
     <ul>
-      {%- for post in year.items -%}
+      {%- for post in year.items reversed -%} <!-- Reversing the order of posts within each year -->
         <li>
-          <!-- Formatted publication entry -->
+          <!-- Concisely formatted publication entry -->
           <p>
             {%- if post.authors -%}
               {{ post.authors }},
@@ -27,12 +27,16 @@ layout: default
             {%- if post.status -%}
               {{ post.status }}.
             {%- endif -%}
+            {%- if post.doi -%}
+              <a href="{{ post.doi }}" target="_blank">DOI</a>
+            {%- endif -%}
           </p>
         </li>
       {%- endfor -%}
     </ul>
   {%- endfor -%}
 </div>
+
 
 <script>
   function backToTop() {
