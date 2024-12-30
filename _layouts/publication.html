@@ -10,7 +10,7 @@ layout: default
 
 <div class="publications">
   {%- assign grouped_publications = publications | group_by_exp: "post", "post.date | date: '%Y'" -%}
-  {%- for year in grouped_publications reversed -%}
+  {%- for year in grouped_publications -%}
     <h2>{{ year.name }}</h2>
     <ul>
       {%- for post in year.items -%}
