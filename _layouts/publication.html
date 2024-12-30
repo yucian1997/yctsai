@@ -6,13 +6,14 @@ layout: default
 
 <h1>{{ page.title }}</h1>
 
-{%- assign publications = site.posts | group_by_exp: "post", "post.date | date: '%Y'" -%}
+{%- assign publications = site.posts | sort: 'date' | reverse -%}
 
 <div class="publications">
-  {%- for year in publications reversed -%}
+  {%- assign grouped_publications = publications | group_by_exp: "post", "post.date | date: '%Y'" -%}
+  {%- for year in grouped_publications reversed -%}
     <h2>{{ year.name }}</h2>
     <ul>
-      {%- for post in year.items reversed -%} <!-- Reversing the order of posts within each year -->
+      {%- for post in year.items -%}
         <li>
           <!-- Concisely formatted publication entry -->
           <p>
@@ -20,7 +21,7 @@ layout: default
               {{ post.authors }},
             {%- endif -%}
             {{ post.date | date: '%Y' }}:
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>.
+            {{ post.title }},
             {%- if post.journal -%}
               {{ post.journal }},
             {%- endif -%}
