@@ -18,12 +18,13 @@ layout: default
           <!-- Concisely formatted publication entry -->
           <p>
             {%- if post.authors -%}
-              {{ post.authors }},
+              {%- assign highlighted_authors = post.authors | replace: "Y.-C. Tsai", "<span class='highlight'>Y.-C. Tsai</span>" -%}
+              {{ highlighted_authors }},
             {%- endif -%}
             {{ post.date | date: '%Y' }}:
-            {{ post.title }},
+            {{ post.title }}. <!-- Title as plain text -->
             {%- if post.journal -%}
-              {{ post.journal }}.
+              {{ post.journal }},
             {%- endif -%}
             {%- if post.status -%}
               {{ post.status }}.
@@ -45,3 +46,10 @@ layout: default
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
+
+<style>
+  .highlight {
+    font-weight: bold;
+    color: black; /* You can change the color to your preference */
+  }
+</style>
