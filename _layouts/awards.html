@@ -14,6 +14,10 @@ layout: default
     {%- for award in year.items -%}
       <p>
         {{ award.name }} ({{ award.country }})
+        {%- if award.image -%}
+          <br>
+          <img src="{{ award.image }}" alt="{{ award.name }}" style="max-width: 100%; height: auto;">
+        {%- endif -%}
       </p>
     {%- endfor -%}
   {%- endfor -%}
@@ -38,5 +42,8 @@ layout: default
 
   .back-to-top:hover {
     text-decoration: underline;
+  }
+  .awards img {
+    margin-top: 10px;
   }
 </style>
