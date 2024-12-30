@@ -11,13 +11,11 @@ layout: default
   {% assign grouped_awards = awards_by_year | group_by: "year" %}
   {%- for year in grouped_awards -%}
     <h2>{{ year.name }}</h2>
-    <ul>
-      {%- for award in year.items -%}
-        <li>
-          {{ award.name }} ({{ award.country }})
-        </li>
-      {%- endfor -%}
-    </ul>
+    {%- for award in year.items -%}
+      <p>
+        {{ award.name }} ({{ award.country }})
+      </p>
+    {%- endfor -%}
   {%- endfor -%}
 </div>
 
