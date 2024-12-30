@@ -12,7 +12,7 @@ layout: default
   {%- for year in publications reversed -%}
     <h2>{{ year.name }}</h2>
     <ul>
-      {%- for post in year.items reversed -%}
+      {%- for post in year.items reversed -%} <!-- Reversing the order of posts within each year -->
         <li>
           <!-- Concisely formatted publication entry -->
           <p>
@@ -28,7 +28,7 @@ layout: default
               {{ post.status }}.
             {%- endif -%}
             {%- if post.doi -%}
-              <a href="{{ post.doi }}" target="_blank">DOI</a>
+              <a href="{{ post.doi }}" target="_blank">{{ post.doi }}</a>
             {%- endif -%}
           </p>
         </li>
