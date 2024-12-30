@@ -13,51 +13,100 @@
   {%- include custom-head.html -%}
 </head>
 <body>
-  <article class="page">
-    <h1 class="page-title">{{ page.title }}</h1>
-    {{ content }}
-  </article>
 
   {% include home-header.html %}
 
-  <div class="posts">
-    {% for post in paginator.posts %}
-    <section class="post-entry">
-      <h2 class="post-title">
-        <a href="{{ post.url | relative_url }}">
-          {{ post.title }}
-        </a>
-      </h2>
-
+  {% if page.layout == "post" %}
+    <article class="post">
+      <h1 class="post-title">{{ page.title }}</h1>
       <div class="post-meta">
-        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
-        {%- if jekyll.environment == "production" and site.disqus -%}
+        {%- assign date_format = site.date_format | default: "%-d %b %Y" -%}
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: date_format }}</time>
+        {%- if page.last_modified_at -%}
+          <span> ~ </span>
+          {%- assign mdate = page.last_modified_at | date_to_xmlschema -%}
+          <time datetime="{{ mdate }}" itemprop="dateModified">
+            {{ mdate | date: date_format }}
+          </time>
+        {%- endif -%}
+        {%- if page.author -%}
           <span> • </span>
-          <a class="comment-count" href="{{ post.url | relative_url }}#disqus_thread">
-            <span class="disqus-comment-count" data-disqus-url="{{ post.url | absolute_url }}"></span>
-          </a>
+          {% for author in page.author %}
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+              {{ author }}
+            </span>
+            {%- if forloop.last == false %}, {% endif -%}
+          {% endfor %}
         {%- endif -%}
       </div>
 
-      <p>{{ post.excerpt | strip_html }}</p>
-    </section>
-    {% endfor %}
-    {%- if jekyll.environment == "production" and site.disqus -%}
-      <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js" async></script>
-    {%- endif -%}
-  </div>
+      {{ content }}
 
-  <div class="pagination">
-    {% if paginator.next_page %}
-      <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">Older</a>
-    {% else %}
-      <span class="pagination-item older">Older</span>
+      {% if page.tags %}
+        {% include post-tags.html %}
+      {% endif %}
+
+      {% if jekyll.environment == "production" and site.disqus and page.comments != false %}
+        {% include disqus.html %}
+      {% endif %}
+    </article>
+
+    {% if site.related_posts != empty %}
+    <aside class="related">
+      <h2>Related posts</h2>
+      <ul class="related-posts">
+        {% for post in site.related_posts limit:3 %}
+          <li>
+            <a href="{{ post.url | relative_url }}">
+              {{ post.title }}
+              <small><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time></small>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </aside>
     {% endif %}
-    {% if paginator.previous_page %}
-      <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">Newer</a>
-    {% else %}
-      <span class="pagination-item newer">Newer</span>
-    {% endif %}
-  </div>
+  {% else %}
+    <div class="posts">
+      {% for post in paginator.posts %}
+      <section class="post-entry">
+        <h2 class="post-title">
+          <a href="{{ post.url | relative_url }}">
+            {{ post.title }}
+          </a>
+        </h2>
+
+        <div class="post-meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
+          {%- if jekyll.environment == "production" and site.disqus -%}
+            <span> • </span>
+            <a class="comment-count" href="{{ post.url | relative_url }}#disqus_thread">
+              <span class="disqus-comment-count" data-disqus-url="{{ post.url | absolute_url }}"></span>
+            </a>
+          {%- endif -%}
+        </div>
+
+        <p>{{ post.excerpt | strip_html }}</p>
+      </section>
+      {% endfor %}
+      {%- if jekyll.environment == "production" and site.disqus -%}
+        <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js" async></script>
+      {%- endif -%}
+    </div>
+
+    <div class="pagination">
+      {% if paginator.next_page %}
+        <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">Older</a>
+      {% else %}
+        <span class="pagination-item older">Older</span>
+      {% endif %}
+      {% if paginator.previous_page %}
+        <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">Newer</a>
+      {% else %}
+        <span class="pagination-item newer">Newer</span>
+      {% endif %}
+    </div>
+  {% endif %}
+
 </body>
 </html>
