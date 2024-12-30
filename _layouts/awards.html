@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+{% include home-header.html %}
+
+<h1>{{ page.title }}</h1>
+
+<div class="awards">
+  <ul>
+    {%- for award in site.data.awards -%}
+      <li>
+        <strong>{{ award.year }}</strong>: {{ award.name }} ({{ award.country }})
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+<a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
+
+<script>
+  function backToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+<style>
+  .back-to-top {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .back-to-top:hover {
+    text-decoration: underline;
+  }
+</style>
