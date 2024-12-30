@@ -7,13 +7,17 @@ layout: default
 <h1>{{ page.title }}</h1>
 
 <div class="awards">
-  <ul>
-    {%- for award in site.data.awards -%}
-      <li>
-        <strong>{{ award.year }}</strong>: {{ award.name }} ({{ award.country }})
-      </li>
-    {%- endfor -%}
-  </ul>
+  {% assign awards_by_year = site.data.awards | sort: "year" | reverse %}
+  {%- for year in awards_by_year | group_by: "year" -%}
+    <h2>{{ year.name }}</h2>
+    <ul>
+      {%- for award in year.items -%}
+        <li>
+          {{ award.name }} ({{ award.country }})
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endfor -%}
 </div>
 
 <a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
