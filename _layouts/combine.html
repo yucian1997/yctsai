@@ -1,107 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
-  <link rel="stylesheet" href="{{ 'assets/styles.css' | relative_url }}">
+---
+layout: default
+---
 
-  {%- seo -%}
-  {%- feed_meta -%}
+{% include home-header.html %}
 
-  {%- include custom-head.html -%}
-  <style>
-    .content {
-      display: flex;
-    }
-    .main-content {
-      flex: 3;
-    }
-    .sidebar {
-      flex: 1;
-      padding-left: 20px;
-    }
-  </style>
-</head>
-<body>
+<div class="posts">
+  {% for post in paginator.posts %}
+  <section class="post-entry">
+    <h2 class="post-title">
+      <a href="{{ post.url | relative_url }}">
+        {{ post.title }}
+      </a>
+    </h2>
 
-  {% include home-header.html %}
-
-  <div class="content">
-    <div class="main-content">
-      <article class="page">
-        <h1 class="page-title">{{ page.title }}</h1>
-        {{ content }}
-      </article>
-
-      <div class="posts">
-        {% for post in paginator.posts %}
-        <section class="post-entry">
-          <h2 class="post-title">
-            <a href="{{ post.url | relative_url }}">
-              {{ post.title }}
-            </a>
-          </h2>
-
-          <div class="post-meta">
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
-            {%- if jekyll.environment == "production" and site.disqus -%}
-              <span> • </span>
-              <a class="comment-count" href="{{ post.url | relative_url }}#disqus_thread">
-                <span class="disqus-comment-count" data-disqus-url="{{ post.url | absolute_url }}"></span>
-              </a>
-            {%- endif -%}
-          </div>
-
-          <p>{{ post.excerpt | strip_html }}</p>
-        </section>
-        {% endfor %}
-        {%- if jekyll.environment == "production" and site.disqus -%}
-          <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js" async></script>
-        {%- endif -%}
-      </div>
-
-      <div class="pagination">
-        {% if paginator.next_page %}
-          <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">Older</a>
-        {% else %}
-          <span class="pagination-item older">Older</span>
-        {% endif %}
-        {% if paginator.previous_page %}
-          <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">Newer</a>
-        {% else %}
-          <span class="pagination-item newer">Newer</span>
-        {% endif %}
-      </div>
-    </div>
-
-    <div class="sidebar">
-      {%- if site.related_posts != empty -%}
-      <aside class="related">
-        <h2>Related posts</h2>
-        <ul class="related-posts">
-          {% for post in site.related_posts limit:3 %}
-            <li>
-              <a href="{{ post.url | relative_url }}">
-                {{ post.title }}
-                <small><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time></small>
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </aside>
+    <div class="post-meta">
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
+      {%- if jekyll.environment == "production" and site.disqus -%}
+        <span> • </span>
+        <a class="comment-count" href="{{ post.url | relative_url }}#disqus_thread">
+          <span class="disqus-comment-count" data-disqus-url="{{ post.url | absolute_url }}"></span>
+        </a>
       {%- endif -%}
     </div>
-  </div>
 
-  <!-- Add background figure styles if they are defined in your original layout -->
-  <style>
-    body {
-      background-image: url('path/to/your/background-image.jpg');
-      background-size: cover;
-      background-attachment: fixed; /* Or any other properties you had */
-    }
-  </style>
-</body>
-</html>
+    <p>{{ post.excerpt | strip_html }}</p>
+  </section>
+  {% endfor %}
+  {%- if jekyll.environment == "production" and site.disqus -%}
+    <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js" async></script>
+  {%- endif -%}
+</div>
+
+<div class="pagination">
+  {% if paginator.next_page %}
+    <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">Older</a>
+  {% else %}
+    <span class="pagination-item older">Older</span>
+  {% endif %}
+  {% if paginator.previous_page %}
+    <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">Newer</a>
+  {% else %}
+    <span class="pagination-item newer">Newer</span>
+  {% endif %}
+</div>
