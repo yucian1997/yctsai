@@ -12,7 +12,7 @@ layout: default
   {%- for year in publications reversed -%}
     <h2>{{ year.name }}</h2>
     <ul>
-      {%- for post in year.items reversed -%} <!-- Reversing the order of posts within each year -->
+      {%- for post in year.items reversed -%}
         <li>
           <!-- Concisely formatted publication entry -->
           <p>
@@ -37,6 +37,7 @@ layout: default
   {%- endfor -%}
 </div>
 
+<a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
 
 <script>
   function backToTop() {
