@@ -2,21 +2,6 @@
 # Use a comment to ensure Jekyll reads the file to be transformed into CSS later
 # only main files contain this front matter, not partials.
 ---
-
-//
-//                        ___
-//                       /\_ \
-//  _____     ___     ___\//\ \      __
-// /\ '__`\  / __`\  / __`\\ \ \   /'__`\
-// \ \ \_\ \/\ \_\ \/\ \_\ \\_\ \_/\  __/
-//  \ \ ,__/\ \____/\ \____//\____\ \____\
-//   \ \ \/  \/___/  \/___/ \/____/\/____/
-//    \ \_\
-//     \/_/
-//
-// Designed, built, and released under MIT license by @mdo. Learn more at
-// https://github.com/poole/poole.
-
 @import "variables";
 @import "base";
 @import "type";
@@ -178,4 +163,48 @@ body {
   margin: 0;
   font-size: 0.875rem;
   color: #777;
+}
+/* General styles */
+body {
+  font-family: 'Lora', serif;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex; /* Use flexbox layout for the container */
+}
+
+.sidebar-left {
+  position: fixed; /* Fix the sidebar to the left */
+  top: 0;
+  left: 0;
+  width: 25%; /* Adjust the width as needed */
+  height: 100vh; /* Full height of the viewport */
+  background-color: rgb(40, 73, 77); /* Default background color */
+  color: rgb(255, 255, 255); /* Default text color */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  z-index: 1000; /* Ensure sidebar is above other content */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Optional: Add a shadow for better separation */
+}
+
+/* Adjust the content area to account for the fixed sidebar */
+.content {
+  margin-left: 25%; /* Adjust this to match the sidebar width */
+  padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar-left {
+    position: static; /* Make sidebar static on small screens */
+    width: 100%; /* Full width on small screens */
+    height: auto; /* Auto height on small screens */
+  }
+
+  .content {
+    margin-left: 0; /* Remove left margin on small screens */
+  }
 }
