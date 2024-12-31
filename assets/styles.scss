@@ -73,8 +73,6 @@
   }
 }
 
-/* Additional styles for your site (if any) */
-/* Add any other custom styles below this line */
 /* General styles */
 body {
   font-family: 'Lora', serif;
@@ -85,6 +83,7 @@ body {
 }
 
 .container {
+  display: flex; /* Use flexbox layout for the container */
   max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
@@ -180,32 +179,7 @@ body {
   background-color: #f9f9f9;
 }
 
-/* Footer styles */
-.site-footer {
-  background: #f7f7f7;
-  padding: 20px 0;
-  text-align: center;
-  border-top: 1px solid #ddd;
-}
-
-.site-footer p {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #777;
-}
-/* General styles */
-body {
-  font-family: 'Lora', serif;
-  color: #333;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  display: flex; /* Use flexbox layout for the container */
-}
-
+/* Sidebar styles */
 .sidebar-left {
   position: fixed; /* Fix the sidebar to the left */
   top: 0;
@@ -236,4 +210,18 @@ body {
   .content {
     margin-left: 0; /* Remove left margin on small screens */
   }
+}
+
+/* Footer styles */
+.site-footer {
+  background: #f7f7f7;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #777;
 }
