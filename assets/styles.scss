@@ -52,3 +52,37 @@
     margin-left: var(--spacer);
   }
 }
+/* Hide the menu toggle icon by default */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Show the menu toggle icon on smaller screens */
+@media (max-width: 768px) {
+  .pure-menu-horizontal .pure-menu-list {
+    display: none; /* Hide the menu items by default on smaller screens */
+    flex-direction: column; /* Stack menu items vertically */
+  }
+
+  .menu-toggle {
+    display: block; /* Show the menu toggle icon */
+  }
+
+  .pure-menu-horizontal .pure-menu-list.open {
+    display: flex; /* Show the menu items when the menu is open */
+  }
+
+  .pure-menu-horizontal .pure-menu-item {
+    width: 100%; /* Make menu items take the full width */
+  }
+
+  .pure-menu-horizontal .pure-menu-link {
+    display: block; /* Make menu links block elements */
+    width: 100%; /* Make menu links take the full width */
+    padding: 10px; /* Add padding to menu links */
+    text-align: center; /* Center-align the text */
+  }
+}
