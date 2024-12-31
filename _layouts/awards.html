@@ -4,48 +4,9 @@ layout: default
 
 {% include home-header.html %}
 
-<h1>{{ page.title }}</h1>
 
-<div class="awards">
-  {% assign awards_by_year = site.data.awards | sort: "year" | reverse %}
-  {% assign grouped_awards = awards_by_year | group_by: "year" %}
-  {%- for year in grouped_awards -%}
-    <h2>{{ year.name }}</h2>
-    <ul>
-      {%- for award in year.items -%}
-        <li>
-          {{ award.name }} ({{ award.country }})
-          {%- if award.image -%}
-            <br>
-            <img src="{{ award.image }}" alt="{{ award.name }}" style="max-width: 100%; height: auto;">
-          {%- endif -%}
-        </li>
-      {%- endfor -%}
-    </ul>
-  {%- endfor -%}
+<div class="about-me-content">
+  <h2>{{ site.data.about.title }}</h2>
+  {{ site.data.about.content | markdownify }}
 </div>
 
-<a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
-
-<script>
-  function backToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-</script>
-
-<style>
-  .back-to-top {
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 16px;
-    text-decoration: none;
-    color: #007bff;
-  }
-
-  .back-to-top:hover {
-    text-decoration: underline;
-  }
-  .awards img {
-    margin-top: 10px;
-  }
-</style>
