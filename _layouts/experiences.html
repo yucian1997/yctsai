@@ -12,12 +12,12 @@ layout: default
   {%- for year in grouped_experiences -%}
     <h2>{{ year.name }}</h2>
     <ul>
-      {%- for award in year.items -%}
+      {%- for experience in year.items -%}
         <li>
-          {{ experience.name }} 
+          <strong>{{ experience.date }}:</strong> {{ experience.description }}
           {%- if experience.image -%}
             <br>
-            <img src="{{ experience.image }}" alt="{{ experience.name }}" style="max-width: 100%; height: auto;">
+            <img src="{{ experience.image }}" alt="{{ experience.description }}" style="max-width: 100%; height: auto;">
           {%- endif -%}
         </li>
       {%- endfor -%}
