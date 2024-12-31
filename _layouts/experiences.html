@@ -1,0 +1,51 @@
+---
+layout: default
+---
+
+{% include home-header.html %}
+
+<h1>{{ page.title }}</h1>
+
+<div class="experiences">
+  {% assign experiences_by_year = site.data.experiences | sort: "year" | reverse %}
+  {% assign grouped_experiences = experiences_by_year | group_by: "year" %}
+  {%- for year in grouped_experiences -%}
+    <h2>{{ year.name }}</h2>
+    <ul>
+      {%- for award in year.items -%}
+        <li>
+          {{ experience.name }} 
+          {%- if experience.image -%}
+            <br>
+            <img src="{{ experience.image }}" alt="{{ experience.name }}" style="max-width: 100%; height: auto;">
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endfor -%}
+</div>
+
+<a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
+
+<script>
+  function backToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+<style>
+  .back-to-top {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .back-to-top:hover {
+    text-decoration: underline;
+  }
+  .experiences img {
+    margin-top: 10px;
+  }
+</style>
