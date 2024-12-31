@@ -8,21 +8,20 @@ layout: default
 
 <div class="experiences">
   {% assign experiences_by_year = site.data.experiences | sort: "year" | reverse %}
-  {% assign grouped_experiences = experiences_by_year | group_by: "year" %}
-  {%- for year in grouped_experiences -%}
-    <h2>{{ year.name }}</h2>
+  {% for year_group in experiences_by_year %}
+    <h2>{{ year_group.year }}</h2>
     <ul>
-      {%- for experience in year.items -%}
+      {% for experience in year_group.items %}
         <li>
           <strong>{{ experience.date }}:</strong> {{ experience.description }}
-          {%- if experience.image -%}
+          {% if experience.image %}
             <br>
             <img src="{{ experience.image }}" alt="{{ experience.description }}" style="max-width: 100%; height: auto;">
-          {%- endif -%}
+          {% endif %}
         </li>
-      {%- endfor -%}
+      {% endfor %}
     </ul>
-  {%- endfor -%}
+  {% endfor %}
 </div>
 
 <a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
