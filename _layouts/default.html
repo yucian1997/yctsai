@@ -39,5 +39,17 @@
     {%- if jekyll.environment == 'production' and site.google_analytics -%}
       {%- include google-analytics.html -%}
     {%- endif -%}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
+
+        menuToggle.addEventListener('click', function(event) {
+          event.preventDefault();
+          menu.classList.toggle('open');
+        });
+      });
+    </script>
   </body>
 </html>
