@@ -1,1 +1,13 @@
-
+<div class="current-research">
+  {% assign research_items = site.data.current_research | sort: "date" | reverse %}
+  {% for item in research_items %}
+    <div class="research-item">
+      <h3>{{ item.title }}</h3>
+      <p><strong>Date:</strong> {{ item.date }}</p>
+      <p>{{ item.description }}</p>
+      {% if item.image %}
+        <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" class="research-image">
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
