@@ -14,12 +14,13 @@
 }
 
 .avatar-image {
-  width: 30%;
-  height: auto;
+  width: 100px; /* Set a fixed width */
+  height: 100px; /* Set a fixed height */
   border-radius: 50%;
   display: block;
   margin-right: auto;
   margin-left: auto;
+  object-fit: cover; /* Ensure the image covers the area */
 }
 
 .masthead-title {
@@ -83,8 +84,4 @@
   }
 }
 
-@media (max-width: $md-width) {
-  .avatar-image {
-    width: 15%;
-  }
-}
+// Remove the media query that changes the avatar image size
