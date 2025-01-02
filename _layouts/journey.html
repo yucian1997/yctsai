@@ -20,6 +20,8 @@ layout: default
             <strong>Title:</strong> {{ post.title }}<br>
             {%- if post.photo -%}
               <img src="{{ post.photo }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
+              <br>
+              <em>{{ post.description }}</em>
             {%- endif -%}
           </p>
         </li>
@@ -60,5 +62,12 @@ layout: default
 
   .journey li {
     margin-bottom: 20px; /* Add space between list items */
+  }
+
+  .journey em {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #555;
   }
 </style>
