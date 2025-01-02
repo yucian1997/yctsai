@@ -6,9 +6,8 @@ layout: default
 
 <h2>{{ page.title }}</h2>
 
-{%- assign journey = site.posts | sort: 'date' | reverse -%}
-
 <div class="journey">
+  {%- assign journey = site.data.journeys | sort: 'date' | reverse -%}
   {%- assign grouped_journey = journey | group_by_exp: "post", "post.date | date: '%Y'" -%}
   {%- for year in grouped_journey -%}
     <h3>{{ year.name }}</h3>
@@ -18,6 +17,7 @@ layout: default
           <p>
             <strong>Date:</strong> {{ post.date | date: "%B %d, %Y" }}<br>
             <strong>Place:</strong> {{ post.place }}<br>
+            <strong>Title:</strong> {{ post.title }}<br>
             {%- if post.photo -%}
               <img src="{{ post.photo }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
             {%- endif -%}
