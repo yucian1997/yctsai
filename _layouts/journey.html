@@ -1,1 +1,64 @@
+---
+layout: default
+---
 
+{% include home-header.html %}
+
+<h2>{{ page.title }}</h2>
+
+{%- assign journey = site.posts | sort: 'date' | reverse -%}
+
+<div class="journey">
+  {%- assign grouped_journey = journey | group_by_exp: "post", "post.date | date: '%Y'" -%}
+  {%- for year in grouped_journey -%}
+    <h3>{{ year.name }}</h3>
+    <ul>
+      {%- for post in year.items -%}
+        <li>
+          <p>
+            <strong>Date:</strong> {{ post.date | date: "%B %d, %Y" }}<br>
+            <strong>Place:</strong> {{ post.place }}<br>
+            {%- if post.photo -%}
+              <img src="{{ post.photo }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
+            {%- endif -%}
+          </p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endfor -%}
+</div>
+
+<a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
+
+<script>
+  function backToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+<style>
+  .back-to-top {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .back-to-top:hover {
+    text-decoration: underline;
+  }
+
+  .journey img {
+    margin-top: 10px;
+  }
+
+  .journey ul {
+    list-style-type: disc;
+    padding-left: 20px; /* Add padding to align bullets */
+  }
+
+  .journey li {
+    margin-bottom: 20px; /* Add space between list items */
+  }
+</style>
