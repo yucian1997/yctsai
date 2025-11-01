@@ -7,5 +7,5 @@ layout: default
 
 <div class="about-me-content">
   <h2>{{ site.data.about.title }}</h2>
-  {{ markdownify }}
+  {{ site.data.about.content | markdownify }}
 </div>
