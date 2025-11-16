@@ -18,7 +18,7 @@
         {%- assign cover_image = page.cover_image -%}
       {%- endif -%}
 
-      <div class="sidebar-left pure-u-1 pure-u-md-1-4" style="background-color: {{ cover_bg_color }}; color: {{ cover_color }}; {% if cover_image %}background-image: url({{ cover_image | relative_url }){% endif %}">
+      <div class="sidebar-left pure-u-1 pure-u-md-1-4" style="background-color: {{ cover_bg_color }}; color: {{ cover_color }}; {% if cover_image %}background-image: url({{ cover_image | relative_url }});{% endif %}">
         {%- include sidebar-left.html -%}
       </div>
 
@@ -47,40 +47,26 @@
       {%- include google-analytics.html -%}
     {%- endif -%}
 
-    <a href="#" onclick="backToTop()" class="back-to-top" aria-label="Back to top">Top &#8648;</a>
+    <a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
     
     <script>
       function backToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     </script>
-    
+
     <style>
-      /* Make the back-to-top clearly visible and fixed in the viewport */
       .back-to-top {
-        position: fixed;
-        right: 20px;
-        bottom: 20px;
         display: inline-block;
-        margin: 0;
+        margin-top: 20px;
         font-size: 16px;
         text-decoration: none;
-        color: #fff; /* visible text color */
-        background: #007bff; /* visible background */
-        padding: 8px 12px;
-        border-radius: 6px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        z-index: 9999;
-        opacity: 0.95;
+        color: #007bff;
       }
-
+    
       .back-to-top:hover {
-        text-decoration: none;
-        opacity: 1;
-        transform: translateY(-1px);
+        text-decoration: underline;
       }
-
-      /* keep existing rule for awards images */
       .awards img {
         margin-top: 10px;
       }
@@ -91,13 +77,10 @@
         const menuToggle = document.getElementById('menu-toggle');
         const menu = document.getElementById('menu');
 
-        // Guard against missing elements to avoid throwing an error that might interfere with other scripts
-        if (menuToggle && menu) {
-          menuToggle.addEventListener('click', function(event) {
-            event.preventDefault();
-            menu.classList.toggle('open');
-          });
-        }
+        menuToggle.addEventListener('click', function(event) {
+          event.preventDefault();
+          menu.classList.toggle('open');
+        });
       });
     </script>
   </body>
