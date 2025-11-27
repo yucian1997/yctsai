@@ -18,7 +18,7 @@
         {%- assign cover_image = page.cover_image -%}
       {%- endif -%}
 
-      <div class="sidebar-left pure-u-1 pure-u-md-1-4" style="background-color: {{ cover_bg_color }}; color: {{ cover_color }}; {% if cover_image %}background-image: url({{ cover_image | relative_url ) }}; background-size: cover; background-position: center;{% endif %}">
+      <div class="sidebar-left pure-u-1 pure-u-md-1-4" style="background-color: {{ cover_bg_color }}; color: {{ cover_color }}; {% if cover_image %}background-image: url({{ cover_image | relative_url }});{% endif %}">
         {%- include sidebar-left.html -%}
       </div>
 
@@ -30,7 +30,7 @@
         </header>
 
         <div class="research-content">
-          {%- include current-research-content.html -%}
+          {%- include previous-research-content.html -%}
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     </script>
-    
+
     <style>
       .back-to-top {
         display: inline-block;
