@@ -29,6 +29,16 @@
   font-size: 2rem;
   font-weight: 900;
 
+  /* Preserve newlines from _config.yml title (use `|` for multiline) */
+  white-space: pre-line;
+  line-height: 1.12;
+
+  /* If the title is wrapped in an <a>, make sure the anchor allows line breaks */
+  a {
+    white-space: pre-line;
+    display: inline-block; /* keeps layout stable while allowing line-breaks */
+  }
+
   a:hover,
   a:focus {
     color: var(--link-hover-color);
