@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF Viewer</title>
+  <style>
+    :root{--toolbar-height:48px;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;display:flex;flex-direction:column;height:100vh}
+    .toolbar{height:var(--toolbar-height);display:flex;align-items:center;padding:6px 8px;gap:8px;background:#f6f8fa;border-bottom:1px solid #e1e4e8}
+    .toolbar button, .toolbar select, .toolbar input{height:32px}
+    .viewer{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;justify-content:center;align-items:flex-start;padding:8px;background:#888}
+    #canvasContainer{background:#fff;padding:6px;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+    canvas{display:block;max-width:100%;height:auto}
+    .status{padding:12px;text-align:center}
+    .spacer{flex:1}
+    a.button{display:inline-block;padding:8px 12px;background:#0366d6;color:#fff;border-radius:6px;text-decoration:none}
+    @media (max-width:640px){.toolbar{gap:6px;padding:6px}} 
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button id="prevBtn">Prev</button>
+    <button id="nextBtn">Next</button>
+    <label>Page <input id="pageNum" type="number" min="1" style="width:64px"/></label>
+    <span id="pageCount">/ 0</span>
+    <div class="spacer"></div>
+    <label>Zoom
+      <select id="scaleSelect">
+        <option value="0.5">50%</option>
+        <option value="0.75">75%</option>
+        <option value="1" selected>100%</option>
+        <option value="1.25">125%</option>
+        <option value="1.5">150%</option>
+        <option value="2">200%</option>
+      </select>
+    </label>
+    <a id="downloadLink" class="button" href="#" target="_blank" rel="noopener">Download</a>
+  </div>
+  <div class="viewer">
+    <div id="canvasContainer"><canvas id="pdfCanvas"></canvas></div>
+  </div>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  <!-- Using pdfjs-dist from unpkg for a lightweight solution; you can vendor these files into assets/pdfjs/ for no external dependency. -->
+  <script src="https://unpkg.com/pdfjs-dist@3.12.313/build/pdf.min.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const fileParam = params.get('file');
+    const statusEl = document.getElementById('status');
+    const canvas = document.getElementById('pdfCanvas');
+    const ctx = canvas.getContext('2d');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageNumInput = document.getElementById('pageNum');
+    const pageCountEl = document.getElementById('pageCount');
+    const scaleSelect = document.getElementById('scaleSelect');
+    const downloadLink = document.getElementById('downloadLink');
+
+    if (!fileParam) {
+      statusEl.textContent = 'No file specified. Use ?file=/path/to/file.pdf';
+      throw new Error('No file specified');
+    }
+
+    const pdfUrl = decodeURIComponent(fileParam);
+    downloadLink.href = pdfUrl;
+
+    // Setup worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.12.313/build/pdf.worker.min.js';
+
+    let pdfDoc = null;
+    let pageNum = 1;
+    let scale = parseFloat(scaleSelect.value);
+
+    function renderPage(num) {
+      statusEl.textContent = 'Rendering page ' + num + '...';
+      pdfDoc.getPage(num).then(function(page) {
+        const viewport = page.getViewport({ scale: scale });
+        const maxWidth = Math.min(viewport.width, document.documentElement.clientWidth - 32);
+        const scaleFactor = maxWidth < viewport.width ? maxWidth / viewport.width : 1;
+        const finalViewport = page.getViewport({ scale: scale * scaleFactor });
+
+        canvas.width = finalViewport.width;
+        canvas.height = finalViewport.height;
+        const renderCtx = { canvasContext: ctx, viewport: finalViewport };
+        page.render(renderCtx).promise.then(function() {
+          statusEl.textContent = '';
+        }).catch(function(err){
+          statusEl.textContent = 'Error rendering page.';
+          console.error(err);
+        });
+      });
+      pageNumInput.value = num;
+    }
+
+    function queueRenderPage(num) {
+      if (num < 1) num = 1;
+      if (num > pdfDoc.numPages) num = pdfDoc.numPages;
+      pageNum = num;
+      renderPage(pageNum);
+    }
+
+    prevBtn.addEventListener('click', function(){ if (pageNum <= 1) return; queueRenderPage(pageNum - 1); });
+    nextBtn.addEventListener('click', function(){ if (pageNum >= pdfDoc.numPages) return; queueRenderPage(pageNum + 1); });
+    pageNumInput.addEventListener('change', function(){ let n = parseInt(this.value); if (isNaN(n)) n = 1; queueRenderPage(n); });
+    scaleSelect.addEventListener('change', function(){ scale = parseFloat(this.value); queueRenderPage(pageNum); });
+
+    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+      pdfDoc = pdf;
+      pageCountEl.textContent = '/ ' + pdfDoc.numPages;
+      queueRenderPage(pageNum);
+    }).catch(function(err){
+      console.error(err);
+      statusEl.textContent = 'Error loading PDF: ' + (err.message || err);
+    });
+  </script>
+</body>
+</html>
