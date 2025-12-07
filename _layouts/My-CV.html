@@ -7,36 +7,43 @@
   <style>
     html, body { height: 100%; margin: 0; }
     .pdf-viewer { width: 100%; border: none; display: block; }
+
+    /* Use a viewport-height sized container for desktop and large screens */
     .viewer-full { min-height: 100vh; height: 100vh; }
+
+    /* On small screens allow for address bar and safe-area insets */
     @media (max-width: 640px) {
       .viewer-full {
         height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
         min-height: 60vh;
       }
     }
+
+    /* Make sure fallback content is readable */
     .pdf-fallback { padding: 1rem; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
     .pdf-fallback a { color: #0366d6; text-decoration: none; }
   </style>
 </head>
 <body>
   {%- comment -%}
-  Build PDF URL in a way that works with GitHub Pages baseurl/site.url.
+  Build PDF URL in a way that works with GitHub Pages baseurl.
+  Adjust "/assets/yucian-tsai-cv.pdf" if your PDF filename/path differs.
   {%- endcomment -%}
 
   {% assign pdf_path = "/assets/yucian-tsai-cv.pdf" %}
-  {% if site.url and site.url != "" %}
-    {% assign site_root = site.url | append: site.baseurl %}
+  {% if site.baseurl and site.baseurl != "" %}
+    {% assign pdf_url = site.baseurl | append: pdf_path %}
   {% else %}
-    {% assign site_root = site.baseurl %}
+    {% assign pdf_url = pdf_path %}
   {% endif %}
-  {% assign pdf_url = site_root | append: pdf_path %}
-  {% assign pdf_url_enc = pdf_url | url_encode %}
-  {% assign viewer_url = site.baseurl | append: "/assets/pdfjs/viewer.html?file=" | append: pdf_url_enc %}
 
-  <iframe src="{{ viewer_url }}" class="pdf-viewer viewer-full" title="Yu‑Cian's CV (PDF viewer)">
-    <div class="pdf-fallback">
-      <p>Unable to display the PDF in your browser. You can <a href="{{ pdf_url }}" target="_blank" rel="noopener noreferrer">open the CV PDF in a new tab</a> or <a href="{{ pdf_url }}" download>download it</a>.</p>
-    </div>
-  </iframe>
+  <!-- Prefer <object> for PDF embedding, fall back to iframe, and finally to a link -->
+  <object data="{{ pdf_url }}" type="application/pdf" class="pdf-viewer viewer-full" aria-label="Yu‑Cian's CV PDF">
+    <iframe src="{{ pdf_url }}" class="pdf-viewer viewer-full" title="Yu‑Cian's CV (embedded PDF)">
+      <div class="pdf-fallback">
+        <p>Unable to display the PDF in your browser. You can <a href="{{ pdf_url }}" target="_blank" rel="noopener noreferrer">open the CV PDF in a new tab</a> or <a href="{{ pdf_url }}" download>download it</a>.</p>
+      </div>
+    </iframe>
+  </object>
 </body>
 </html>
