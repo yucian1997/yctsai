@@ -2,46 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ page.title | default: "Yu‑Cian's CV" }}</title>
-  <style>
-    html, body { height: 100%; margin: 0; }
-    .pdf-viewer { width: 100%; border: none; display: block; }
-
-    /* Use a viewport-height sized container for desktop and large screens */
-    .viewer-full { min-height: 100vh; height: 100vh; }
-
-    /* On small screens allow for address bar and safe-area insets */
-    @media (max-width: 640px) {
-      .viewer-full {
-        height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-        min-height: 60vh;
-      }
-    }
-
-    /* Make sure fallback content is readable */
-    .pdf-fallback { padding: 1rem; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
-    .pdf-fallback a { color: #0366d6; text-decoration: none; }
-  </style>
+  <title>Yu‑Cian's CV</title>
+  <style>body,html{height:100%;margin:0}iframe{border:none;width:100%;height:100vh}</style>
 </head>
 <body>
-  {%- comment -%}
-  Build PDF URL in a way that works with GitHub Pages baseurl.
-  Adjust "/assets/yucian-tsai-cv.pdf" if your PDF filename/path differs.
-  Using the relative_url filter is recommended for Jekyll pages.
-  {%- endcomment -%}
-
-  {% assign pdf_path = "/assets/yucian-tsai-cv.pdf" %}
-  {% assign pdf_url = pdf_path | relative_url %}
-
-  <!-- Prefer <object> for PDF embedding, fall back to iframe, and finally to a link -->
-  <object data="{{ pdf_url }}" type="application/pdf" class="pdf-viewer viewer-full" aria-label="Yu‑Cian's CV PDF">
-    <iframe src="{{ pdf_url }}" class="pdf-viewer viewer-full" title="Yu‑Cian's CV (embedded PDF)">
-      <div class="pdf-fallback">
-        <p>Unable to display the PDF in your browser. You can <a href="{{ pdf_url }}" target="_blank" rel="noopener noreferrer">open the CV PDF in a new tab</a> or <a href="{{ pdf_url }}" download>download the CV PDF</a>.</p>
-        <p>If neither option works, ensure the file exists at <code>{{ pdf_url }}</code> and that your GitHub Pages configuration (site.url / site.baseurl) is correct.</p>
-      </div>
-    </iframe>
-  </object>
+  <!-- This will display the PDF in an embedded viewer once you enable GitHub Pages (source: /docs on main) -->
+  <iframe src="/yuciantsai/assets/yucian-tsai-cv.pdf">
+    <p>Your browser does not support iframes. <a href="/yuciantsai/blob/5568390f051ea70d67cace0514c7f387e58f839f/assets/yucian-tsai-cv.pdf">Open the CV PDF</a>.</p>
+  </iframe>
 </body>
 </html>
