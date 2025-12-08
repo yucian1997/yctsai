@@ -9,24 +9,11 @@
         <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" class="research-image">
       {% endif %}
     </div>
+   <hr style="border: 1px solid black; margin: 1.5rem 0;">
 
-    {% unless forloop.last %}
-      <hr style="border: 1px solid black; margin: 1.5rem 0;">
-    {% endunless %}
-
+  <footer class="footer">
+    <small> &copy; Yu-Cian Tsai </small> 
+  </footer>
+  
   {% endfor %}
 </div>
-
-<!-- ================== FOOTER (add this part) ================== -->
-<footer class="footer">
-  {%- assign year_from = site.posts | last | date: '%Y' -%}
-  {%- assign year_to   = site.time | date: '%Y' -%}
-
-  {%- if year_from == nil or year_from == year_to -%}
-    {%- assign year_string = year_to -%}
-  {%- else -%}
-    {%- assign year_string = year_from | append: ' - ' | append: year_to -%}
-  {%- endif -%}
-
-  <small>&copy; {{ year_string }} Yu-Cian Tsai</small>
-</footer>
