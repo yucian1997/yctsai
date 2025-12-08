@@ -22,7 +22,7 @@ layout: default
               {{ bold_authors }},
             {%- endif -%}
             {{ post.date | date: '%Y' }}:
-            {{ post.title }}. <!-- Title as plain text -->
+            {{ post.title }}.
             {%- if post.journal -%}
               <em>{{ post.journal }}</em>.
             {%- endif -%}
@@ -39,10 +39,60 @@ layout: default
   {%- endfor -%}
 </div>
 
+<!-- Back to Top button (same behavior/style as other pages) -->
 <a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
 
 <script>
   function backToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // Mobile menu toggle for the header in home-header.html
+  document.addEventListener('DOMContentLoaded', function() {
+    // Support any header that uses .menu-toggle + .home-header-menu
+    const toggles = document.querySelectorAll('.menu-toggle');
+
+    toggles.forEach(function(toggle) {
+      const headerBar = toggle.closest('.home-header-bar');
+      if (!headerBar) return;
+
+      const menu = headerBar.querySelector('.home-header-menu');
+      if (!menu) return;
+
+      toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        menu.classList.toggle('open');
+      });
+    });
+  });
 </script>
+
+<style>
+  /* Back-to-top button: fixed bottom-right, consistent across pages */
+  .back-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #ffffff;
+    border: 1px solid #007bff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #007bff;
+    font-size: 14px;
+    text-decoration: none;
+    z-index: 1000;
+  }
+
+  .back-to-top:hover {
+    background: #007bff;
+    color: #ffffff;
+  }
+
+  .publications ul {
+    padding-left: 1.5rem;
+  }
+
+  .publications li {
+    margin-bottom: 1rem;
+  }
+</style>
