@@ -35,14 +35,21 @@ layout: default
 
   // Mobile menu toggle for the header in home-header.html
   document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
+    // Handle ALL .menu-toggle elements, not just one #menu-toggle
+    const toggles = document.querySelectorAll('.menu-toggle');
 
-    if (!menuToggle || !menu) return;
+    toggles.forEach(function(toggle) {
+      // Find the menu associated with THIS toggle: look inside the same .home-header-bar
+      const headerBar = toggle.closest('.home-header-bar');
+      if (!headerBar) return;
 
-    menuToggle.addEventListener('click', function(event) {
-      event.preventDefault();
-      menu.classList.toggle('open');
+      const menu = headerBar.querySelector('.home-header-menu');
+      if (!menu) return;
+
+      toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        menu.classList.toggle('open');
+      });
     });
   });
 </script>
