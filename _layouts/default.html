@@ -18,7 +18,9 @@
       {%- if page.cover_image -%}
         {%- assign cover_image     = page.cover_image -%}
       {%- endif -%}
-      <div class="sidebar-left pure-u-1 pure-u-md-1-4" style="background-color: {{ cover_bg_color }}; color: {{ cover_color}}; {% if cover_image %}background-image: url({{ cover_image | relative_url }});{% endif %}">
+
+      <div class="sidebar-left pure-u-1 pure-u-md-1-4"
+           style="background-color: {{ cover_bg_color }}; color: {{ cover_color}}; {% if cover_image %}background-image: url({{ cover_image | relative_url }});{% endif %}">
         {%- include sidebar-left.html -%}
       </div>
 
@@ -40,16 +42,55 @@
       {%- include google-analytics.html -%}
     {%- endif -%}
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.getElementById('menu-toggle');
-        const menu = document.getElementById('menu');
+    <!-- Back to Top button (shared by all pages using this layout) -->
+    <a href="#" onclick="backToTop()" class="back-to-top">Top &#8648;</a>
 
-        menuToggle.addEventListener('click', function(event) {
-          event.preventDefault();
-          menu.classList.toggle('open');
+    <script>
+      function backToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Mobile menu toggle for headers that use home-header.html
+      document.addEventListener('DOMContentLoaded', function() {
+        // Handle all .menu-toggle elements (e.g., from home-header.html)
+        const toggles = document.querySelectorAll('.menu-toggle');
+
+        toggles.forEach(function(toggle) {
+          const headerBar = toggle.closest('.home-header-bar');
+          if (!headerBar) return;
+
+          const menu = headerBar.querySelector('.home-header-menu');
+          if (!menu) return;
+
+          toggle.addEventListener('click', function(event) {
+            event.preventDefault();
+            menu.classList.toggle('open');
+          });
         });
       });
     </script>
+
+    <style>
+      /* Back-to-top: fixed bottom-right, consistent across pages */
+      .back-to-top {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #ffffff;
+        border: 1px solid #007bff;
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: #007bff;
+        font-size: 14px;
+        text-decoration: none;
+        z-index: 1000;
+      }
+
+      .back-to-top:hover {
+        background: #007bff;
+        color: #ffffff;
+      }
+    </style>
+
   </body>
 </html>
